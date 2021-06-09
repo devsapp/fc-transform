@@ -2,6 +2,7 @@ import * as core from '@serverless-devs/core';
 import BaseComponent from './common/base';
 import logger from './common/logger';
 import * as _ from 'lodash';
+import HELP from './lib/help';
 import { InputProps, ICredentials } from './common/entity';
 import GetYaml from './lib/yaml-path';
 import ReadFile from './lib/read-file';
@@ -28,20 +29,21 @@ export default class ComponentDemo extends BaseComponent {
 
   private argsParser(args: string) {
     const apts: any = {
-      boolean: ['help'],
-      string: ['region', 'type', 'fun'],
-      alias: { 'help': 'h' },
+      boolean: ['help', 'force'],
+      string: ['region', 'type', 'fun-path'],
+      alias: { 'help': 'h', 'force': 'f', 'fun-path': 'fun' },
     };
     const comParse: any = core.commandParse({ args }, apts);
     // 将Args转成Object
     const argsData: any = comParse.data || {};
-    const { region, fun } = argsData;
+    const { region, fun, force } = argsData;
     if (argsData.help) {
       return { isHelp: true };
     }
 
     return {
       region,
+      force,
       fun
     };
   }
@@ -49,10 +51,10 @@ export default class ComponentDemo extends BaseComponent {
   public async fc(inputs: InputProps) {
     logger.debug(inputs);
     const { access } = inputs.project;
-    // this.report('fc-transform', 'fc', inputs.credentials?.AccountID, access);
-    const { isHelp, region, fun } = this.argsParser(inputs.args);
+    this.report('fc-transform', 'fc', inputs.credentials?.AccountID, access);
+    const { isHelp, region, fun, force } = this.argsParser(inputs.args);
     if (isHelp) {
-      // TODO help
+      core.help(HELP);
       return;
     }
     
@@ -61,15 +63,28 @@ export default class ComponentDemo extends BaseComponent {
     });
     const saveSPath = await GetYaml.getYamlFileNotExistPath({
       fileDir,
-      fileName: 's'
+      fileName: 's',
+      force,
     });
     logger.debug(`fileDir: ${fileDir}, funYamlPath: ${funYamlPath}, saveSPath: ${saveSPath}`);
     const funConfig = await ReadFile.readYaml(funYamlPath);
     const funProfile = await ReadFile.getFunProfile();
 
     const services = Transform.resources(funConfig.Resources);
-    // console.log(JSON.stringify(services, null, 2));
+    logger.debug(JSON.stringify(services, null, 2));
     await WriteFile.s(saveSPath, access, region || funProfile.region || '***', services);
-    logger.success('ok');
+
+    logger.success(`\nTransform success, s file path: ${saveSPath}`);
+
+    const eventInvokeTip = 's local invoke';
+    const httpInvokeTip = 's local start';
+    const deployTip = 's deploy';
+    
+logger.log(`\nTips for next step
+
+======================
+* Invoke Event Function: ${eventInvokeTip}
+* Invoke Http Function: ${httpInvokeTip}
+* Deploy Resources: ${deployTip}\n`, 'yellow');
   }
 }

@@ -50,14 +50,17 @@ export default class GetYaml {
     }
   }
 
-  static async getYamlFileNotExistPath({ fileDir, fileName }) {
+  static async getYamlFileNotExistPath({ fileDir, fileName, force }) {
     const {
       fileYmlPath,
       fileYamlPath,
       fileYmlPathStatu,
       fileYamlPathStatu,
     } = await this.getYamlFileName(fileDir, fileName);
-    return fileYmlPath;
+    if (force) {
+      return fileYmlPath;
+    }
+
     if (!fileYmlPathStatu) {
       return fileYmlPath;
     }

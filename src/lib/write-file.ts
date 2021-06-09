@@ -1,4 +1,3 @@
-import GetYaml from './yaml-path';
 import yaml from 'js-yaml';
 import fse from 'fs-extra';
 
