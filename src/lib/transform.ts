@@ -3,6 +3,9 @@ import logger from '../common/logger';
 
 const isAuto = (args) => _.isString(args) && _.toLower(args) === 'auto';
 const transformKey = (args) => {
+  if (_.isEmpty(args)) {
+    return undefined;
+  }
   if (isAuto(args)) {
     return args;
   } else {
@@ -59,7 +62,7 @@ export default class Transform {
     };
     const vpcConfig = properties.VpcConfig;
     const nasConfig = properties.NasConfig;
-    const logConfig = properties.LogConfig || {};
+    const logConfig = properties.LogConfig;
     const tracingConfig = properties.TracingConfig;
 
     if (vpcConfig) {
