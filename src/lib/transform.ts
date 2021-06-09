@@ -95,13 +95,13 @@ export default class Transform {
     _.forIn(resource, (v: any, functionName) => {
       if ((v || {}).Type === 'Aliyun::Serverless::Function') {
         const props: any = {
-          region: '${region}',
+          region: '${vars.region}',
           service: serviceConfig,
         };
         const funcProperties = v.Properties;
 
         props.function = {
-          functionName,
+          name:functionName,
           description: funcProperties.Description,
           handler: funcProperties.Handler,
           initializer: funcProperties.Initializer,
@@ -123,10 +123,15 @@ export default class Transform {
         if (v.Events) {
           props.triggers = Object.keys(v.Events).map(triggerName => {
             const triggerConfig = v.Events[triggerName];
+            // authType for http trigger should be transformed to be in lower case
+            const transformedConfig: any = transformKey(triggerConfig.Properties);
+            if (transformedConfig?.authType) {
+              transformedConfig.authType = _.lowerCase(transformedConfig?.authType);
+            }
             return {
               name: triggerName,
               type: _.toLower(triggerConfig.Type),
-              config: transformKey(triggerConfig.Properties),
+              config: transformedConfig,
             }
           });
         }
