@@ -409,7 +409,7 @@
 							"kindString": "Call signature",
 							"flags": {},
 							"comment": {
-								"shortText": "Funcraft配置转换",
+								"shortText": "Funcraft配置转换为Serverless Devs配置",
 								"tags": [
 									{
 										"tag": "typeparam",

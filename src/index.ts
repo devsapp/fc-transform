@@ -71,6 +71,7 @@ export default class ComponentDemo extends BaseComponent {
     const { fileDir, filePath: funYamlPath } = await GetYaml.getFunPaths({
       filePath: source,
     });
+    logger.info(`Using funcraft yaml: ${funYamlPath}`)
     const saveSPath = await GetYaml.getYamlFileNotExistPath({
       fileDir,
       fileName: target || 's.yaml',
@@ -78,7 +79,6 @@ export default class ComponentDemo extends BaseComponent {
     });
 
     logger.debug(`fileDir: ${fileDir}, funYamlPath: ${funYamlPath}, saveSPath: ${saveSPath}`);
-    console.log('3')
     const funConfig = await ReadFile.readYaml(funYamlPath);
     const funProfile = await ReadFile.getFunProfile();
 
@@ -86,7 +86,7 @@ export default class ComponentDemo extends BaseComponent {
     logger.debug(JSON.stringify(services, null, 2));
     await WriteFile.s(saveSPath, access, region || funProfile.region || '***', services);
 
-    logger.success(`\nTransform success, s file path: ${saveSPath}`);
+    logger.success(`Reminder serverless devs yaml path: ${saveSPath}`);
 
     const eventInvokeTip = 's local invoke -t ' + target || 's.yaml';
     const httpInvokeTip = 's local start -t ' + target || 's.yaml';
