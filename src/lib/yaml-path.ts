@@ -7,43 +7,46 @@ interface yamlInputs {
 }
 
 export default class GetYaml {
-  static async getFunPaths({ filePath, fileName = 'template' }: yamlInputs) {
+  static async getFunPaths({ filePath, fileName}: yamlInputs) {
     let fileDir;
-  
+
     if (!filePath) {
       fileDir = process.cwd();
-  
-      const {
-        fileYmlPath,
-        fileYamlPath,
-        fileYmlPathStatu,
-        fileYamlPathStatu,
-      } = await this.getYamlFileName(fileDir, fileName);
-      
-      if (fileYmlPathStatu) {
-        return {
-          fileDir,
-          filePath: fileYmlPath,
-        }
-      }
-      
-      if (fileYamlPathStatu) {
+
+      fileName = 'template.yml'
+      let fileYamlPath
+      let fileYamlPathStatus
+      let fileYaml = await this.getYamlFileName(fileDir, fileName)
+      fileYamlPath = fileYaml.fileYamlPath
+      fileYamlPathStatus  = fileYaml.fileYamlPathStatus
+      if (fileYamlPathStatus) {
         return {
           fileDir,
           filePath: fileYamlPath,
         }
       }
-  
+
+      fileName = 'template.yaml'
+      fileYaml = await this.getYamlFileName(fileDir, fileName);
+      fileYamlPath = fileYaml.fileYamlPath
+      fileYamlPathStatus  = fileYaml.fileYamlPathStatus
+      if (fileYamlPathStatus) {
+        return {
+          fileDir,
+          filePath: fileYamlPath,
+        }
+      }
+
       throw new Error(`Not fount file: ${filePath}`);
     }
     const isExists = await fs.pathExists(filePath);
-  
+
     if (!isExists) {
       throw new Error(`Not fount file: ${filePath}`);
     }
-  
+
     fileDir = path.dirname(path.resolve(filePath));
-    
+
     return {
       fileDir,
       filePath,
@@ -52,35 +55,26 @@ export default class GetYaml {
 
   static async getYamlFileNotExistPath({ fileDir, fileName, force }) {
     const {
-      fileYmlPath,
       fileYamlPath,
-      fileYmlPathStatu,
-      fileYamlPathStatu,
+      fileYamlPathStatus,
     } = await this.getYamlFileName(fileDir, fileName);
     if (force) {
-      return fileYmlPath;
-    }
-
-    if (!fileYmlPathStatu) {
-      return fileYmlPath;
-    }
-    
-    if (!fileYamlPathStatu) {
       return fileYamlPath;
     }
 
-    throw new Error(`${fileName}.[Yaml|yml] File already exists: ${fileDir}`);
+    if (!fileYamlPathStatus) {
+      return fileYamlPath;
+    }
+
+    throw new Error(`${fileName} File already exists: ${fileDir}, ff you want force this action, you could run [s fc-transform fun2fc --force]`);
   }
 
   static async getYamlFileName(fileDir: string, fileName: string) {
-    const fileYamlPath = path.join(fileDir, `${fileName}.yaml`);
-    const fileYmlPath = path.join(fileDir, `${fileName}.yml`);
-  
+    const fileYamlPath = path.join(fileDir, fileName);
+
     return {
-      fileYmlPath,
       fileYamlPath,
-      fileYmlPathStatu: await fs.pathExists(fileYmlPath),
-      fileYamlPathStatu: await fs.pathExists(fileYamlPath),
+      fileYamlPathStatus: await fs.pathExists(fileYamlPath),
     };
   }
 }

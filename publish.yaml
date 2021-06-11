@@ -1,10 +1,10 @@
 Type: Component
 Name: fc-transform
 Provider:
-  - 其它
-Version: 0.0.1
-Description: 初始化component模板
-HomePage: https://www.serverless-devs.com
+  - 阿里云
+Version: 0.0.2
+Description: 配置转化
+HomePage: https://github.com/devsapp/fc-transform
 Tags: #标签详情
-  - 模板
+  - 配置转化
 Category: 其它

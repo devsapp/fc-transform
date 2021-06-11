@@ -11,15 +11,18 @@ export default [
     header: 'Options',
     optionList: [
       {
-        name: 'fun-path',
-        description: 'Specify fun configuration path(default: template.[yaml|yml] of the current folder).',
-        alias: 'fun',
+        name: 'source',
+        description: 'Specify fun configuration path(default: template.[yaml|yml]).',
+        type: Boolean,
+      },
+      {
+        name: 'target',
+        description: 'Specify serverless devs configuration path(default: s.yaml).',
         type: Boolean,
       },
       {
         name: 'force',
         description: 'Mandatory overwrite s file',
-        alias: 'f',
         type: Boolean,
       },
       {

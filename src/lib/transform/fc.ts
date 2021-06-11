@@ -24,7 +24,7 @@ export default class Transform extends Base {
           );
         }
 
-        services[`Service-${name}-${functionName}`] = {
+        services[`fc-${name}-${functionName}`] = {
           component: COMPONENT,
           props,
         };
@@ -39,7 +39,7 @@ export default class Transform extends Base {
       name,
       description: properties.Description,
       role: properties.Role,
-      internetAccess: 'InternetAccess' in properties ? properties.InternetAccess : null,
+      internetAccess: 'InternetAccess' in properties ? properties.InternetAccess : true,
     };
     const vpcConfig = properties.VpcConfig;
     const nasConfig = properties.NasConfig;
@@ -55,7 +55,7 @@ export default class Transform extends Base {
         serviceConfig.nasConfig = this.transformKey(nasConfig);
       } else {
         const tNasConfig = this.transformKey(nasConfig);
-  
+
         tNasConfig.mountPoints = tNasConfig.mountPoints.map((item) => {
           const [serverAddr, nasDir] = this.transformKey(item).serverAddr.split(':');
           return { serverAddr, nasDir, fcDir: item.MountDir };

@@ -30,13 +30,13 @@ export default class ComponentDemo extends BaseComponent {
   private argsParser(args: string) {
     const apts: any = {
       boolean: ['help', 'force'],
-      string: ['region', 'type', 'fun-path'],
-      alias: { 'help': 'h', 'force': 'f', 'fun-path': 'fun' },
+      string: ['region', 'type', 'source', 'target'],
+      alias: { 'help': 'h'},
     };
     const comParse: any = core.commandParse({ args }, apts);
     // 将Args转成Object
     const argsData: any = comParse.data || {};
-    const { region, fun, force } = argsData;
+    const { region, source, force, target } = argsData;
     if (argsData.help) {
       return { isHelp: true };
     }
@@ -44,29 +44,41 @@ export default class ComponentDemo extends BaseComponent {
     return {
       region,
       force,
-      fun
+      source,
+      target
     };
   }
 
-  public async fc(inputs: InputProps) {
+  /**
+   * Funcraft配置转换为Serverless Devs配置
+   * @param 'Optional --source [fun Yaml文件], --target [Serverless Devs目标文件]'
+   * @typeParam Required --serviceName
+   * @typeParam
+   */
+  public async fun2fc(inputs: InputProps) {
     logger.debug(inputs);
+    // 获取密钥
     const { access } = inputs.project;
+    // 数据采集
     this.report('fc-transform', 'fc', inputs.credentials?.AccountID, access);
-    const { isHelp, region, fun, force } = this.argsParser(inputs.args);
+    // 参数获取
+    const { isHelp, region, source, force, target } = this.argsParser(inputs.args);
     if (isHelp) {
       core.help(HELP);
       return;
     }
-    
+
     const { fileDir, filePath: funYamlPath } = await GetYaml.getFunPaths({
-      filePath: fun,
+      filePath: source,
     });
     const saveSPath = await GetYaml.getYamlFileNotExistPath({
       fileDir,
-      fileName: 's',
+      fileName: target || 's.yaml',
       force,
     });
+
     logger.debug(`fileDir: ${fileDir}, funYamlPath: ${funYamlPath}, saveSPath: ${saveSPath}`);
+    console.log('3')
     const funConfig = await ReadFile.readYaml(funYamlPath);
     const funProfile = await ReadFile.getFunProfile();
 
@@ -76,11 +88,11 @@ export default class ComponentDemo extends BaseComponent {
 
     logger.success(`\nTransform success, s file path: ${saveSPath}`);
 
-    const eventInvokeTip = 's local invoke';
-    const httpInvokeTip = 's local start';
-    const deployTip = 's deploy';
-    
-logger.log(`\nTips for next step
+    const eventInvokeTip = 's local invoke -t ' + target || 's.yaml';
+    const httpInvokeTip = 's local start -t ' + target || 's.yaml';
+    const deployTip = 's deploy -t ' + target || 's.yaml';
+
+    logger.log(`\nTips for next step
 
 ======================
 * Invoke Event Function: ${eventInvokeTip}
