@@ -86,7 +86,7 @@ export default class ComponentDemo extends BaseComponent {
     logger.debug(JSON.stringify(services, null, 2));
     await WriteFile.s(saveSPath, access, region || funProfile.region || '***', services);
 
-    logger.success(`Reminder serverless devs yaml path: ${saveSPath}`);
+    logger.info(`Reminder serverless devs yaml path: ${saveSPath}`);
 
     const eventInvokeTip = 's local invoke -t ' + target || 's.yaml';
     const httpInvokeTip = 's local start -t ' + target || 's.yaml';
