@@ -88,9 +88,9 @@ export default class ComponentDemo extends BaseComponent {
 
     logger.info(`Reminder serverless devs yaml path: ${saveSPath}`);
 
-    const eventInvokeTip = 's local invoke -t ' + target || 's.yaml';
-    const httpInvokeTip = 's local start -t ' + target || 's.yaml';
-    const deployTip = 's deploy -t ' + target || 's.yaml';
+    const eventInvokeTip = 's local invoke -t ' + (target ? target : 's.yaml');
+    const httpInvokeTip = 's local start -t ' + (target ? target : 's.yaml');
+    const deployTip = 's deploy -t ' + (target ? target : 's.yaml');
 
     logger.log(`\nTips for next step
 
