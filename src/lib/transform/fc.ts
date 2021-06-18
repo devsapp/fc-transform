@@ -48,7 +48,7 @@ export default class Transform extends Base {
 
     if (properties.Policies) {
       serviceConfig.role = {
-        name: serviceConfig.role,
+        name: serviceConfig.role || `${serviceConfig.name}DefaultRole`,
         policies: _.isString(properties.Policies) ? [properties.Policies] : properties.Policies
       }
     }

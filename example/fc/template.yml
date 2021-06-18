@@ -11,7 +11,7 @@ Resources:
         PrivateKey: './certificates/privateKey.pem'
         Certificate: './certificates/certificate.pem'
       RouteConfig:
-        Routes: 
+        Routes:
           '/nodejs':
             ServiceName: CustomDomainHttps
             FunctionName: NodejsHttps
@@ -31,14 +31,16 @@ Resources:
     Type: 'Aliyun::Serverless::Service'
     Properties:
       Description: 'local invoke demo'
+      Policies:
+        - AliyunVPCReadOnlyAccess
       VpcConfig:
         VpcId: 'vpc-bp12hm92gdpcjtai7ua82'
         VSwitchIds: [ 'vsw-bp1gitru7oicyyb4uiylj' ]
         SecurityGroupId: 'sg-bp1hxp0cmozjepfiy9iu'
-      NasConfig: 
+      NasConfig:
         UserId: -1
         GroupId: -1
-        MountPoints: 
+        MountPoints:
           - ServerAddr: '012194b28f-ujc20.cn-hangzhou.nas.aliyuncs.com:/'
             MountDir: '/mnt/test'
       LogConfig:
@@ -68,7 +70,7 @@ Resources:
             Methods: ['GET', 'POST', 'PUT']
         TmTrigger:
           Type: Timer
-          Properties: 
+          Properties:
             Payload: "awesome-fc"
             CronExpression: "0 0 8 * * *"  # utc 时间，北京时间减8小时
             Enable: true
