@@ -37,19 +37,19 @@ export default class Transform {
     const fcResources = Object.keys(services)
       .map(key => {
         const { props } = services[key];
-        let hasHttpTigger = false;
+        let hasHttpTrigger = false;
         if (props.triggers) {
-          hasHttpTigger = !isEmpty(props.triggers.filter(({ type }) => type === 'http'))
+          hasHttpTrigger = !isEmpty(props.triggers.filter(({ type }) => type === 'http'))
         }
 
         return ({
           key,
           serviceName: props.service.name,
           functionName: props.function?.name,
-          hasHttpTigger
+          hasHttpTrigger
         })
       })
-      .filter(({ key, hasHttpTigger }) => hasHttpTigger && key.startsWith('Service-'));
+      .filter(({ key, hasHttpTrigger }) => hasHttpTrigger && key.startsWith('Service-'));
 
     for (const { name, resource } of customDomains) {
       const customDomain = new CustomDomain().transform(name, resource, fcResources);

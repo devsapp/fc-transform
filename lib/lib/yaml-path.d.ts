@@ -1,9 +1,8 @@
 interface yamlInputs {
     filePath?: undefined | string;
-    fileName?: string;
 }
 export default class GetYaml {
-    static getFunPaths({ filePath, fileName }: yamlInputs): Promise<{
+    static getFunPaths({ filePath }: yamlInputs): Promise<{
         fileDir: any;
         filePath: any;
     }>;
