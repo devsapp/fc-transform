@@ -46,6 +46,13 @@ export default class Transform extends Base {
     const logConfig = properties.LogConfig;
     const tracingConfig = properties.TracingConfig;
 
+    if (properties.Policies) {
+      serviceConfig.role = {
+        name: serviceConfig.role,
+        policies: _.isString(properties.Policies) ? [properties.Policies] : properties.Policies
+      }
+    }
+
     if (vpcConfig) {
       serviceConfig.vpcConfig = this.transformKey(vpcConfig);
     }

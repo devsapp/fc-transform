@@ -3,17 +3,16 @@ import path from 'path';
 
 interface yamlInputs {
   filePath?: undefined | string;
-  fileName?: string;
 }
 
 export default class GetYaml {
-  static async getFunPaths({ filePath, fileName}: yamlInputs) {
+  static async getFunPaths({ filePath }: yamlInputs) {
     let fileDir;
 
     if (!filePath) {
       fileDir = process.cwd();
 
-      fileName = 'template.yml'
+      let fileName = 'template.yml'
       let fileYamlPath
       let fileYamlPathStatus
       let fileYaml = await this.getYamlFileName(fileDir, fileName)
@@ -37,7 +36,7 @@ export default class GetYaml {
         }
       }
 
-      throw new Error(`Not fount file: ${filePath}`);
+      throw new Error(`Not fount file: ${fileDir}/template.[yaml|yml]`);
     }
     const isExists = await fs.pathExists(filePath);
 
