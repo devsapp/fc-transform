@@ -1,12 +1,31 @@
 ROSTemplateFormatVersion: '2015-09-01'
 Transform: 'Aliyun::Serverless-2018-04-03'
 Resources:
+  sls-log-test:
+    Type: 'Aliyun::Serverless::Log'
+    Properties:
+      Description: 'just python log'
+    log-trigger:
+      Type: 'Aliyun::Serverless::Log::Logstore'
+      Properties:
+        TTL: 10
+        ShardCount: 1
+    sls-log: 
+      Type: 'Aliyun::Serverless::Log::Logstore'
+      Properties:
+        TTL: 10
+        ShardCount: 1
+    log:
+      Type: 'Aliyun::Serverless::Log::Logstore'
+      Properties:
+        TTL: 10
+        ShardCount: 1
   fun2.cn-shanghai.1221968287646227.cname-test.fc.aliyun-inc.com:
     Type: 'Aliyun::Serverless::CustomDomain'
     Properties:
       DomainName: Auto
       Protocol: HTTP,HTTPS
-      CertConfig: # For details of certificate configuration, please refer to the documentation：https://github.com/aliyun/fun/blob/master/docs/specs/2018-04-03-zh-cn.md#aliyunserverlesscustomdomain
+      CertConfig:
         CertName: 'CertName'
         PrivateKey: './certificates/privateKey.pem'
         Certificate: './certificates/certificate.pem'
@@ -54,6 +73,21 @@ Resources:
         Description: 'http trigger demo with nodejs8!'
         Runtime: nodejs8
         Initializer: index.initializer
+    nodejs10:
+      Type: 'Aliyun::Serverless::Function'
+      Properties:
+        Handler: index.handler
+        CodeUri: nodejs8/
+        Description: 'http trigger demo with nodejs8!'
+        Runtime: nodejs8
+        Initializer: index.initializer
+      Events:
+        TmTrigger:
+          Type: Timer
+          Properties:
+            Payload: "awesome-fc"
+            CronExpression: "0 0 8 * * *"  # utc 时间，北京时间减8小时
+            Enable: true
     nodejs8:
       Type: 'Aliyun::Serverless::Function'
       Properties:
@@ -68,9 +102,8 @@ Resources:
           Properties:
             AuthType: ANONYMOUS
             Methods: ['GET', 'POST', 'PUT']
-        TmTrigger:
-          Type: Timer
+        http-test-2:
+          Type: HTTP
           Properties:
-            Payload: "awesome-fc"
-            CronExpression: "0 0 8 * * *"  # utc 时间，北京时间减8小时
-            Enable: true
+            AuthType: ANONYMOUS
+            Methods: ['GET', 'POST', 'PUT']

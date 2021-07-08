@@ -6,10 +6,20 @@ vars:
   region: xxx
 
 services:
+  sls-test: #  服务名称
+    component: devsapp/sls  # 组件名称
+    props: #  组件的属性值
+      regionId: ${vars.region}
+      project: cn-shenzhen-logproject # 全局唯一
+      description: wss
+      logstore: fc-service-fc-test-logstore
+      logstoreOption:
+        ttl: 456
+        shardCount: 1
   fc-deploy-test: #  服务名称
     component: fc-deploy  # 组件名称
     props: #  组件的属性值
-      region: ${region}
+      region: ${vars.region}
       service:
         name: qianfeng-fc-deploy-service
         description: 'demo for fc-deploy component'
