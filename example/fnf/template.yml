@@ -1,0 +1,10 @@
+ROSTemplateFormatVersion: '2015-09-01'
+Transform: 'Aliyun::Serverless-2018-04-03'
+Resources:
+  downloadAndPackage:
+    Type: 'Aliyun::Serverless::Flow'
+    Properties:
+      Description: download and package
+      DefinitionUri: ./downloadAndPackage.flow.yml
+      Policies:
+        - AliyunFCInvocationAccess

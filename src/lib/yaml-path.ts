@@ -52,7 +52,7 @@ export default class GetYaml {
     }
   }
 
-  static async getYamlFileNotExistPath({ fileDir, fileName, force }) {
+  static async getYamlFileNotExistPath({ fileDir, fileName, force, command }) {
     const {
       fileYamlPath,
       fileYamlPathStatus,
@@ -65,7 +65,7 @@ export default class GetYaml {
       return fileYamlPath;
     }
 
-    throw new Error(`${fileName} File already exists: ${fileDir}, if you want force this action, you could run [s fc-transform fun2fc --force]`);
+    throw new Error(`${fileName} File already exists: ${fileDir}, if you want force this action, you could run [s fc-transform ${command} --force]`);
   }
 
   static async getYamlFileName(fileDir: string, fileName: string) {

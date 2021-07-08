@@ -3,7 +3,7 @@ import BaseComponent from './common/base';
 import logger from './common/logger';
 import * as _ from 'lodash';
 import HELP from './lib/help';
-import { InputProps, ICredentials } from './common/entity';
+import { InputProps } from './common/entity';
 import GetYaml from './lib/yaml-path';
 import ReadFile from './lib/read-file';
 import WriteFile from './lib/write-file';
@@ -14,16 +14,10 @@ export default class ComponentDemo extends BaseComponent {
     super(props)
   }
 
-  private async report(componentName: string, command: string, accountID?: string, access?: string): Promise<void> {
-    let uid: string = accountID;
-    if (_.isEmpty(accountID)) {
-      const credentials: ICredentials = await core.getCredential(access);
-      uid = credentials.AccountID;
-    }
-
+  private async report(componentName: string, command: string, accountID?: string): Promise<void> {
     core.reportComponent(componentName, {
       command,
-      uid,
+      uid: accountID,
     });
   }
 
@@ -55,12 +49,11 @@ export default class ComponentDemo extends BaseComponent {
    * @typeParam Required --serviceName
    * @typeParam
    */
-  public async fun2fc(inputs: InputProps) {
-    logger.debug(inputs);
+  async fun2fc(inputs: InputProps) {
     // 获取密钥
     const { access } = inputs.project;
     // 数据采集
-    this.report('fc-transform', 'fc', inputs.credentials?.AccountID, access);
+    this.report('fc-transform', 'fun2fc', inputs.credentials?.AccountID);
     // 参数获取
     const { isHelp, region, source, force, target } = this.argsParser(inputs.args);
     if (isHelp) {
@@ -73,8 +66,9 @@ export default class ComponentDemo extends BaseComponent {
     });
     logger.info(`Using funcraft yaml: ${funYamlPath}`)
     const saveSPath = await GetYaml.getYamlFileNotExistPath({
-      fileDir,
       fileName: target || 's.yaml',
+      command: 'fun2fc',
+      fileDir,
       force,
     });
 
@@ -97,6 +91,56 @@ export default class ComponentDemo extends BaseComponent {
 ======================
 * Invoke Event Function: ${eventInvokeTip}
 * Invoke Http Function: ${httpInvokeTip}
+* Deploy Resources: ${deployTip}\n`, 'yellow');
+  }
+
+  /**
+   * Funcraft配置转换为Serverless Devs配置
+   * @param 'Optional --source [fun Yaml文件], --target [Serverless Devs目标文件]'
+   * @typeParam Required --serviceName
+   * @typeParam
+   */
+  async fun2ros(inputs: InputProps) {
+    const { isHelp, region, source, force, target } = this.argsParser(inputs.args);
+    // 数据采集
+    this.report('fc-transform', 'fun2ros', inputs.credentials?.AccountID);
+    if (isHelp) {
+      core.help(HELP);
+      return;
+    }
+
+    const { fileDir, filePath: funYamlPath } = await GetYaml.getFunPaths({
+      filePath: source,
+    });
+    logger.info(`Using funcraft yaml: ${funYamlPath}`);
+
+    const saveSPath = await GetYaml.getYamlFileNotExistPath({
+      fileName: target || 's.yaml',
+      command: 'fun2ros',
+      fileDir,
+      force,
+    });
+
+    logger.debug(`fileDir: ${fileDir}, funYamlPath: ${funYamlPath}, saveSPath: ${saveSPath}`);
+
+    const funProfile = await ReadFile.getFunProfile();
+    const template = await WriteFile.ros(saveSPath, await ReadFile.readYaml(funYamlPath));
+    await WriteFile.s(saveSPath, inputs?.project?.access, region || funProfile.region || '***', {
+      transform_fun: {
+        component: 'devsapp/ros',
+        props: {
+          name: '****',
+          region: '${vars.region}',
+          template,
+        }
+      }
+    });
+
+    logger.info(`Reminder serverless devs yaml path: ${saveSPath}`);
+    const deployTip = 's deploy -t ' + (target ? target : 's.yaml');
+    logger.log(`\nTips for next step
+
+======================
 * Deploy Resources: ${deployTip}\n`, 'yellow');
   }
 }

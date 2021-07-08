@@ -48,4 +48,10 @@ export default class WriteFile {
         const configStr = yaml.dump(ymlConfig);
         await fse.writeFile(ymlPath, configStr);
     }
+
+    static async ros(saveSPath: string, data: any) {
+        const fileName = `${saveSPath}.json`;
+        await fse.writeFile(fileName, JSON.stringify(data, null, 2));
+        return fileName;
+    }
 }
