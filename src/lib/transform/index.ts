@@ -2,12 +2,14 @@ import _, { isEmpty } from 'lodash';
 import logger from '../../common/logger';
 import Fc from './fc';
 import Log from './log';
+import Flow from './flow';
 import CustomDomain from './custom-domain';
 
 export default class Transform {
   static resources(resour: any) {
     const services: any = {};
     const logs: any = {};
+    const flow: any = {};
     const cnames: any = {};
     const customDomains = [];
 
@@ -31,7 +33,7 @@ export default class Transform {
       } else if (type === 'Aliyun::Serverless::MNSTopic') {
         logger.error('Not currently supported transform Aliyun::Serverless::MNSTopic');
       } else if (type === 'Aliyun::Serverless::Flow') {
-        logger.error('Not currently supported transform Aliyun::Serverless::MNSTopic');
+        Object.assign(flow, new Flow().transform(name, resource));
       } else {
         logger.error(`unknown resource ${name}`);
       }
@@ -65,6 +67,7 @@ export default class Transform {
     return {
       ...logs,
       ...cnames,
+      ...flow,
       ...services,
     };
   }
