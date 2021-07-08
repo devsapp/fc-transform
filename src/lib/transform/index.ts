@@ -1,12 +1,16 @@
 import _, { isEmpty } from 'lodash';
 import logger from '../../common/logger';
 import Fc from './fc';
+import Log from './log';
+import Flow from './flow';
 import CustomDomain from './custom-domain';
 
 export default class Transform {
   static resources(resour: any) {
     const services: any = {};
-
+    const logs: any = {};
+    const flow: any = {};
+    const cnames: any = {};
     const customDomains = [];
 
     _.forIn(resour, (resource: any, name) => {
@@ -19,7 +23,8 @@ export default class Transform {
       } else if (type === 'Aliyun::Serverless::TableStore') {
         logger.error('Not currently supported transform Aliyun::Serverless::TableStore');
       } else if (type === 'Aliyun::Serverless::Log') {
-        logger.error('Not currently supported transform Aliyun::Serverless::Log');
+        const logResources = new Log().transform(name, resource);
+        Object.assign(logs, logResources);
       } else if (type === 'Aliyun::Serverless::CustomDomain') {
         customDomains.push({
           name,
@@ -28,7 +33,7 @@ export default class Transform {
       } else if (type === 'Aliyun::Serverless::MNSTopic') {
         logger.error('Not currently supported transform Aliyun::Serverless::MNSTopic');
       } else if (type === 'Aliyun::Serverless::Flow') {
-        logger.error('Not currently supported transform Aliyun::Serverless::MNSTopic');
+        Object.assign(flow, new Flow().transform(name, resource));
       } else {
         logger.error(`unknown resource ${name}`);
       }
@@ -37,19 +42,15 @@ export default class Transform {
     const fcResources = Object.keys(services)
       .map(key => {
         const { props } = services[key];
-        let hasHttpTrigger = false;
-        if (props.triggers) {
-          hasHttpTrigger = !isEmpty(props.triggers.filter(({ type }) => type === 'http'))
-        }
 
         return ({
           key,
           serviceName: props.service.name,
           functionName: props.function?.name,
-          hasHttpTrigger
+          hasHttpTrigger: props.triggers ? !isEmpty(props.triggers.filter(({ type }) => type === 'http')) : false,
         })
       })
-      .filter(({ key, hasHttpTrigger }) => hasHttpTrigger && key.startsWith('Service-'));
+      .filter(({ hasHttpTrigger }) => hasHttpTrigger);
 
     for (const { name, resource } of customDomains) {
       const customDomain = new CustomDomain().transform(name, resource, fcResources);
@@ -59,10 +60,15 @@ export default class Transform {
         }
         services[customDomain.key].props.customDomains.push(customDomain.customDomain);
       } else {
-        services[`CustomDomain-${name}`] = customDomain;
+        cnames[`CustomDomain-${name}`] = customDomain;
       }
     }
 
-    return services;
+    return {
+      ...logs,
+      ...cnames,
+      ...flow,
+      ...services,
+    };
   }
 }

@@ -22,6 +22,7 @@ export default class Transform extends Base {
 
     for (const { serviceName, functionName } of routeConfigs) {
       const index = _.findIndex(serviceConfig, (item: any) => item.serviceName === serviceName && item.functionName && functionName);
+
       if (index !== -1) {
         return {
           key: serviceConfig[0].key,

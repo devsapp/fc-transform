@@ -15,6 +15,9 @@ export default class WriteFile {
         const tempServiceList = []
 
         for (const eveService in ymlConfig.services) {
+            if (ymlConfig.services[eveService].component !== 'devsapp/fc') {
+                continue;
+            }
             if (ymlConfig.services[eveService].props.service) {
                 if (ymlConfig.services[eveService].props.service.name) {
                     if (tempServiceList.includes(ymlConfig.services[eveService].props.service.name)) {
@@ -31,6 +34,9 @@ export default class WriteFile {
           }
         }
         for (const eveService in ymlConfig.services) {
+            if (ymlConfig.services[eveService].component !== 'devsapp/fc') {
+                continue;
+            }
             if (ymlConfig.services[eveService].props.service) {
                 if (ymlConfig.services[eveService].props.service.name) {
                     if (tempServiceVarsList.includes(ymlConfig.services[eveService].props.service.name)) {
@@ -41,5 +47,11 @@ export default class WriteFile {
         }
         const configStr = yaml.dump(ymlConfig);
         await fse.writeFile(ymlPath, configStr);
+    }
+
+    static async ros(saveSPath: string, data: any) {
+        const fileName = `${saveSPath}.json`;
+        await fse.writeFile(fileName, JSON.stringify(data, null, 2));
+        return fileName;
     }
 }

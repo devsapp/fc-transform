@@ -53,6 +53,7 @@ export default [
     header: 'Examples with CLI',
     content: [
       '$ s cli fc-transform fun2fc',
+      '$ s cli fc-transform fun2ros',
     ],
   },
 ];
