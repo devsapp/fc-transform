@@ -102,6 +102,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="default.html#__getbasepath" class="tsd-kind-icon">__get<wbr>Base<wbr>Path</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="default.html#argsparser" class="tsd-kind-icon">args<wbr>Parser</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="default.html#fun2fc" class="tsd-kind-icon">fun2fc</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="default.html#fun2ros" class="tsd-kind-icon">fun2ros</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="default.html#report" class="tsd-kind-icon">report</a></li>
 							</ul>
 						</section>
@@ -121,7 +122,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides BaseComponent.constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/devsapp/fc-transform/blob/2fa4e1c/src/index.ts#L12">index.ts:12</a></li>
+									<li>Defined in <a href="https://github.com/devsapp/fc-transform/blob/186bfd7/src/index.ts#L12">index.ts:12</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -144,7 +145,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from BaseComponent.client</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/devsapp/fc-transform/blob/2fa4e1c/src/common/base.ts#L9">common/base.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/devsapp/fc-transform/blob/186bfd7/src/common/base.ts#L9">common/base.ts:9</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -170,7 +171,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from BaseComponent.__doc</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/devsapp/fc-transform/blob/2fa4e1c/src/common/base.ts#L34">common/base.ts:34</a></li>
+									<li>Defined in <a href="https://github.com/devsapp/fc-transform/blob/186bfd7/src/common/base.ts#L34">common/base.ts:34</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -194,7 +195,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from BaseComponent.__getBasePath</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/devsapp/fc-transform/blob/2fa4e1c/src/common/base.ts#L21">common/base.ts:21</a></li>
+									<li>Defined in <a href="https://github.com/devsapp/fc-transform/blob/186bfd7/src/common/base.ts#L21">common/base.ts:21</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -211,7 +212,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/devsapp/fc-transform/blob/2fa4e1c/src/index.ts#L30">index.ts:30</a></li>
+									<li>Defined in <a href="https://github.com/devsapp/fc-transform/blob/186bfd7/src/index.ts#L24">index.ts:24</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -234,7 +235,42 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/devsapp/fc-transform/blob/2fa4e1c/src/index.ts#L58">index.ts:58</a></li>
+									<li>Defined in <a href="https://github.com/devsapp/fc-transform/blob/186bfd7/src/index.ts#L52">index.ts:52</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Funcraft配置转换为Serverless Devs配置</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>typeparam</dt>
+									<dd><p>--serviceName</p>
+									</dd>
+									<dt>typeparam</dt>
+									<dd></dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>inputs: <span class="tsd-signature-type">InputProps</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="fun2ros" class="tsd-anchor"></a>
+					<h3>fun2ros</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">fun2ros<span class="tsd-signature-symbol">(</span>inputs<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">InputProps</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/devsapp/fc-transform/blob/186bfd7/src/index.ts#L103">index.ts:103</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -263,13 +299,13 @@
 					<a name="report" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> report</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
-						<li class="tsd-signature tsd-kind-icon">report<span class="tsd-signature-symbol">(</span>componentName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, command<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, accountID<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, access<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">report<span class="tsd-signature-symbol">(</span>componentName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, command<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, accountID<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/devsapp/fc-transform/blob/2fa4e1c/src/index.ts#L17">index.ts:17</a></li>
+									<li>Defined in <a href="https://github.com/devsapp/fc-transform/blob/186bfd7/src/index.ts#L17">index.ts:17</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -282,9 +318,6 @@
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> accountID: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> access: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -328,6 +361,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="default.html#fun2fc" class="tsd-kind-icon">fun2fc</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="default.html#fun2ros" class="tsd-kind-icon">fun2ros</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
 								<a href="default.html#report" class="tsd-kind-icon">report</a>

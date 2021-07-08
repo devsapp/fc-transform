@@ -11,4 +11,11 @@ export default class ComponentDemo extends BaseComponent {
      * @typeParam
      */
     fun2fc(inputs: InputProps): Promise<void>;
+    /**
+     * Funcraft配置转换为Serverless Devs配置
+     * @param 'Optional --source [fun Yaml文件], --target [Serverless Devs目标文件]'
+     * @typeParam Required --serviceName
+     * @typeParam
+     */
+    fun2ros(inputs: InputProps): Promise<void>;
 }
