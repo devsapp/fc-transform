@@ -6,7 +6,6 @@ const COMPONENT = 'devsapp/sls';
 export default class Transform extends Base {
   transform(name: string, resource: any) {
     const servicesObj = {};
-    console.log('resource ', resource);
     
     const logstores = [];
     _.forIn(resource, (v: any, logstoreName) => {

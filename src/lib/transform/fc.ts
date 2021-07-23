@@ -2,6 +2,16 @@ import _ from 'lodash';
 import Base from './base';
 
 const COMPONENT = 'devsapp/fc';
+function extractOssCodeUri(ossUri: string) {
+  const prefixLength = 'oss://'.length;
+
+  const index = ossUri.indexOf('/', prefixLength);
+
+  return {
+    ossBucket: ossUri.substring(prefixLength, index),
+    ossKey: ossUri.substring(index + 1)
+  };
+}
 
 export default class Transform extends Base {
   transform(name: string, resource: any) {
@@ -83,7 +93,7 @@ export default class Transform extends Base {
   }
 
   private transformFunction(name, funcProperties) {
-    return {
+    const resolvedFunctionConf = {
       name,
       description: funcProperties.Description,
       handler: funcProperties.Handler,
@@ -92,7 +102,6 @@ export default class Transform extends Base {
       initializationTimeout: funcProperties.InitializationTimeout,
       memorySize: funcProperties.MemorySize,
       runtime: funcProperties.Runtime,
-      codeUri: funcProperties.CodeUri,
       customContainerConfig: this.transformKey(funcProperties.CustomContainerConfig),
       cAPort: funcProperties.CAPort,
       instanceType: funcProperties.InstanceType,
@@ -102,6 +111,13 @@ export default class Transform extends Base {
       asyncConfiguration: this.transformKey(funcProperties.AsyncConfiguration),
       instanceLifecycleConfig: this.transformKey(funcProperties.InstanceLifecycleConfig)
     }
+    const codeUri = funcProperties.CodeUri;
+    if (_.isString(codeUri) && codeUri.startsWith('oss://')) {
+      Object.assign(resolvedFunctionConf, extractOssCodeUri(codeUri));
+    } else {
+      Object.assign(resolvedFunctionConf, { codeUri });
+    }
+    return resolvedFunctionConf;
   }
 
   private transformTrigger(name, triggerConfig) {

@@ -77,7 +77,7 @@ Resources:
       Type: 'Aliyun::Serverless::Function'
       Properties:
         Handler: index.handler
-        CodeUri: nodejs8/
+        CodeUri: oss://my-fc-testt/2018/helloworld.zip
         Description: 'http trigger demo with nodejs8!'
         Runtime: nodejs8
         Initializer: index.initializer
