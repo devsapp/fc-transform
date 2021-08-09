@@ -103,7 +103,7 @@ export default class Transform extends Base {
       memorySize: funcProperties.MemorySize,
       runtime: funcProperties.Runtime,
       customContainerConfig: this.transformKey(funcProperties.CustomContainerConfig),
-      cAPort: funcProperties.CAPort,
+      caPort: funcProperties.CAPort,
       instanceType: funcProperties.InstanceType,
       environmentVariables: funcProperties.EnvironmentVariables,
       instanceConcurrency: funcProperties.InstanceConcurrency,
