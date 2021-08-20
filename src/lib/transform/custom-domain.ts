@@ -7,7 +7,7 @@ export default class Transform extends Base {
   transform(name: string, resource: any, serviceConfig) {
     const properties = resource.Properties;
 
-    const routes = properties.RouteConfig.Routes;
+    const routes = properties?.RouteConfig?.Routes || {};
     const routeConfigs = Object.keys(routes).map(key => ({
       ...this.transformKey(routes[key]),
       path: key,

@@ -15,7 +15,7 @@ function extractOssCodeUri(ossUri: string) {
 
 export default class Transform extends Base {
   transform(name: string, resource: any) {
-    const properties = resource.Properties;
+    const properties = resource?.Properties;
     const serviceConfig = this.transformService(name, properties);
 
     const services = {};
@@ -47,16 +47,16 @@ export default class Transform extends Base {
   private transformService(name, properties) {
     const serviceConfig: any = {
       name,
-      description: properties.Description,
-      role: properties.Role,
-      internetAccess: 'InternetAccess' in properties ? properties.InternetAccess : true,
+      description: properties?.Description,
+      role: properties?.Role,
+      internetAccess: (properties && 'InternetAccess' in properties) ? properties.InternetAccess : true
     };
-    const vpcConfig = properties.VpcConfig;
-    const nasConfig = properties.NasConfig;
-    const logConfig = properties.LogConfig;
-    const tracingConfig = properties.TracingConfig;
+    const vpcConfig = properties?.VpcConfig;
+    const nasConfig = properties?.NasConfig;
+    const logConfig = properties?.LogConfig;
+    const tracingConfig = properties?.TracingConfig;
 
-    if (properties.Policies) {
+    if (properties?.Policies) {
       serviceConfig.role = {
         name: serviceConfig.role || `${serviceConfig.name}DefaultRole`,
         policies: _.isString(properties.Policies) ? [properties.Policies] : properties.Policies
