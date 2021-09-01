@@ -65,7 +65,7 @@ export default class GetYaml {
       return fileYamlPath;
     }
 
-    throw new Error(`${fileName} File already exists: ${fileDir}, if you want force this action, you could run [s fc-transform ${command} --force]`);
+    throw new Error(`${fileName} File already exists: ${fileDir}, if you want force this action, you could run [s cli fc-transform ${command} --force]`);
   }
 
   static async getYamlFileName(fileDir: string, fileName: string) {
