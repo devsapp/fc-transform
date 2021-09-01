@@ -1,5 +1,4 @@
 import * as core from '@serverless-devs/core';
-import BaseComponent from './common/base';
 import logger from './common/logger';
 import * as _ from 'lodash';
 import HELP from './lib/help';
@@ -9,10 +8,7 @@ import ReadFile from './lib/read-file';
 import WriteFile from './lib/write-file';
 import Transform from './lib/transform';
 
-export default class ComponentDemo extends BaseComponent {
-  constructor(props) {
-    super(props)
-  }
+export default class ComponentDemo {
 
   private async report(componentName: string, command: string, accountID?: string): Promise<void> {
     core.reportComponent(componentName, {
