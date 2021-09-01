@@ -64,7 +64,15 @@ export default class Transform extends Base {
     }
 
     if (vpcConfig) {
-      serviceConfig.vpcConfig = this.transformKey(vpcConfig);
+      if (this.isAuto(nasConfig)) {
+        serviceConfig.vpcConfig = this.transformKey(vpcConfig);
+      } else {
+        serviceConfig.vpcConfig = {
+          vpcId: vpcConfig.VpcId,
+          vswitchIds: vpcConfig.VSwitchIds,
+          securityGroupId: vpcConfig.SecurityGroupId,
+        };
+      }
     }
 
     if (nasConfig) {
