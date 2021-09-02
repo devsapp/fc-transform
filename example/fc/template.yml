@@ -82,6 +82,13 @@ Resources:
         Runtime: nodejs8
         Initializer: index.initializer
       Events:
+        ots-trigger1:
+          Type: TableStore
+          Properties:
+            InvocationRole: 'acs:ram::*****:role/fcdeploycreaterole-dev-mq-ots'
+            Qualifier: LATEST
+            InstanceName: st-dev
+            TableName: goods_list
         TmTrigger:
           Type: Timer
           Properties:
