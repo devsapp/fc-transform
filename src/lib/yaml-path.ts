@@ -36,12 +36,12 @@ export default class GetYaml {
         }
       }
 
-      throw new Error(`Not fount file: ${fileDir}/template.[yaml|yml]`);
+      throw new Error(`Not found file: ${fileDir}/template.[yaml|yml]`);
     }
     const isExists = await fs.pathExists(filePath);
 
     if (!isExists) {
-      throw new Error(`Not fount file: ${filePath}`);
+      throw new Error(`Not found file: ${filePath}`);
     }
 
     fileDir = path.dirname(path.resolve(filePath));
