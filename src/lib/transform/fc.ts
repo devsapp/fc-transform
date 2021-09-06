@@ -134,8 +134,21 @@ export default class Transform extends Base {
     if (transformedConfig?.authType) {
       transformedConfig.authType = _.lowerCase(transformedConfig?.authType);
     }
+
+    const role = transformedConfig?.invocationRole;
+    transformedConfig?.invocationRole && delete transformedConfig?.invocationRole;
+
+    const sourceArn = transformedConfig?.sourceArn;
+    transformedConfig?.sourceArn && delete transformedConfig?.sourceArn;
+
+    const qualifier = transformedConfig?.qualifier;
+    transformedConfig?.qualifier && delete transformedConfig?.qualifier;
+
     return {
       name,
+      role,
+      qualifier,
+      sourceArn,
       type: _.toLower(triggerConfig.Type),
       config: transformedConfig,
     }

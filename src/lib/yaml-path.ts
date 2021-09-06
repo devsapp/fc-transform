@@ -36,12 +36,12 @@ export default class GetYaml {
         }
       }
 
-      throw new Error(`Not fount file: ${fileDir}/template.[yaml|yml]`);
+      throw new Error(`Not found file: ${fileDir}/template.[yaml|yml]`);
     }
     const isExists = await fs.pathExists(filePath);
 
     if (!isExists) {
-      throw new Error(`Not fount file: ${filePath}`);
+      throw new Error(`Not found file: ${filePath}`);
     }
 
     fileDir = path.dirname(path.resolve(filePath));
@@ -65,7 +65,7 @@ export default class GetYaml {
       return fileYamlPath;
     }
 
-    throw new Error(`${fileName} File already exists: ${fileDir}, if you want force this action, you could run [s fc-transform ${command} --force]`);
+    throw new Error(`${fileName} File already exists: ${fileDir}, if you want force this action, you could run [s cli fc-transform ${command} --force]`);
   }
 
   static async getYamlFileName(fileDir: string, fileName: string) {
