@@ -19,6 +19,7 @@ export default class Transform extends Base {
     const serviceConfig = this.transformService(name, properties);
 
     const services = {};
+
     _.forIn(resource, (v: any, functionName) => {
       if ((v || {}).Type === 'Aliyun::Serverless::Function') {
         const props: any = {
@@ -40,6 +41,17 @@ export default class Transform extends Base {
         };
       }
     });
+
+    // 如果仅配置服务，services 会返回一个空的对象
+    if (_.isEmpty(services)) {
+      services[`fc-${name}`] = {
+        component: COMPONENT,
+        props: {
+          region: this.VARS_REGION,
+          service: serviceConfig,
+        },
+      };
+    }
 
     return services;
   }
