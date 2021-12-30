@@ -16,7 +16,8 @@ package-lock.json
 .git
 .env
 
-README.md
+./*.md
+./tsconfig.json
 ./example
 ./src
 ./test

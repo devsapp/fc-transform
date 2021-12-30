@@ -51,7 +51,14 @@ Resources:
     Properties:
       Description: 'local invoke demo'
       Policies:
-        - AliyunVPCReadOnlyAccess
+        - AliyunFCReadOnlyAccess # Managed Policy
+        - Version: '1' # Policy Document
+          Statement:
+            - Effect: Allow
+              Action:
+                - oss:GetObject
+                - oss:GetObjectACL
+              Resource: '*'
       VpcConfig:
         VpcId: 'vpc-bp12hm92gdpcjtai7ua82'
         VSwitchIds: [ 'vsw-bp1gitru7oicyyb4uiylj' ]

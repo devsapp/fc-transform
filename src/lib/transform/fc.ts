@@ -69,10 +69,31 @@ export default class Transform extends Base {
     const tracingConfig = properties?.TracingConfig;
 
     if (properties?.Policies) {
+      let policies = [];
+      if (_.isString(properties.Policies)) {
+        policies.push(properties.Policies);
+      } else if (_.isArray(properties.Policies)) {
+        for (const p of properties.Policies) {
+          if (_.isString(p)) {
+            policies.push(p);
+          } else if (_.has(p, 'Statement') && p?.Version === '1') {
+            const policyName = `Fun2sGeneratedServicePolicy-${name}-${Math.floor((Math.random()*100)+1)}`;
+            policies.push({
+              name: policyName,
+              statement: p.Statement,
+            });
+          } else {
+            throw new Error('Unsupported service role configuration, please file an issue');
+          }
+        }
+      } else {
+        policies = properties.Policies;
+      }
+
       serviceConfig.role = {
         name: serviceConfig.role || `${serviceConfig.name}DefaultRole`,
-        policies: _.isString(properties.Policies) ? [properties.Policies] : properties.Policies
-      }
+        policies,
+      };
     }
 
     if (vpcConfig) {
