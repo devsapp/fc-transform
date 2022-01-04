@@ -20,6 +20,10 @@ export default class Transform extends Base {
       routeConfigs,
     };
 
+    if (customDomain.domainName === 'Auto') {
+      customDomain.domainName = 'auto';
+    }
+
     for (const { serviceName, functionName } of routeConfigs) {
       const index = _.findIndex(serviceConfig, (item: any) => item.serviceName === serviceName && item.functionName && functionName);
 
