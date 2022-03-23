@@ -9,14 +9,6 @@ import WriteFile from './lib/write-file';
 import Transform from './lib/transform';
 
 export default class ComponentDemo {
-
-  private async report(componentName: string, command: string, accountID?: string): Promise<void> {
-    core.reportComponent(componentName, {
-      command,
-      uid: accountID,
-    });
-  }
-
   private argsParser(args: string) {
     const apts: any = {
       boolean: ['help', 'force'],
@@ -48,8 +40,6 @@ export default class ComponentDemo {
   async fun2fc(inputs: InputProps) {
     // 获取密钥
     const { access } = inputs.project;
-    // 数据采集
-    this.report('fc-transform', 'fun2fc', inputs.credentials?.AccountID);
     // 参数获取
     const { isHelp, region, source, force, target } = this.argsParser(inputs.args);
     if (isHelp) {
@@ -98,8 +88,6 @@ export default class ComponentDemo {
    */
   async fun2ros(inputs: InputProps) {
     const { isHelp, region, source, force, target } = this.argsParser(inputs.args);
-    // 数据采集
-    this.report('fc-transform', 'fun2ros', inputs.credentials?.AccountID);
     if (isHelp) {
       core.help(HELP);
       return;

@@ -89,6 +89,13 @@ Resources:
         Runtime: nodejs8
         Initializer: index.initializer
       Events:
+        my-mns-trigger:
+          Type: MNSTopic
+          Properties:
+            TopicName: test-topic
+            NotifyContentFormat: JSON
+            NotifyStrategy: EXPONENTIAL_DECAY_RETRY
+            FilterTag: testTag
         ots-trigger1:
           Type: TableStore
           Properties:
