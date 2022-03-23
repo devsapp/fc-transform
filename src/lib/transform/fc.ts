@@ -177,12 +177,17 @@ export default class Transform extends Base {
     const qualifier = transformedConfig?.qualifier;
     transformedConfig?.qualifier && delete transformedConfig?.qualifier;
 
+    let type = _.toLower(triggerConfig.Type || '');
+    if(type === 'mnstopic') {
+      type = 'mns_topic';
+    }
+
     return {
       name,
       role,
       qualifier,
       sourceArn,
-      type: _.toLower(triggerConfig.Type),
+      type,
       config: transformedConfig,
     }
   }
